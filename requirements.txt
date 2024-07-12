@@ -25,3 +25,5 @@ typing_extensions==4.12.2
 webargs==8.4.0
 Werkzeug==3.0.3
 zipp==3.19.2
+python-dotenv
+flask-cors
