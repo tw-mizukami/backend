@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from flask_cors import CORS
 
-from app.routes.machines_route import machines_route
+from app.routes.machineInfo_route import machineInfo_route
 
 
 def create_app():
@@ -12,7 +12,7 @@ def create_app():
      
     app.config.from_object("config.default.Config")
     
-    app.register_blueprint(machines_route)
+    app.register_blueprint(machineInfo_route)
 
     CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"] }})
 
