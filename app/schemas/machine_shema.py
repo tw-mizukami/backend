@@ -9,10 +9,14 @@ class MachineInfoSchema(ma.SQLAlchemyAutoSchema):
 
     ip = fields.String(
         validate=[
-            validate.Length(min=1, max=15),
+            validate.Length(min=1, max=40),
             validate.Regexp(
                 r'^(\d{1,3}\.){3}\d{1,3}$',  # IPアドレスの基本的な形式を検証
                 error='Invalid IP address format.'
             )
         ]
     )
+
+    speed = fields.Integer(required=True)  
+    good_num = fields.Integer(required=True)  
+    ng_num = fields.Integer(required=True)  

@@ -15,11 +15,12 @@
 #         "Machine4":["192.168.0.13", "4000", "5000", "6000"],
 #         "Machine5":["192.168.0.13", "4000", "5000", "6000"]
 #     })
+import pdb
 
 from flask import Blueprint, request, jsonify
 from app.models.machine_model import MachineInfo
 from app.schemas.machine_shema import MachineInfoSchema
-from app import db  # dbのインポートを確認してください
+from app.extensions import db  # dbのインポートを確認してください
 from marshmallow import ValidationError  # ValidationErrorのインポートを確認してください
 
 machineInfo_route = Blueprint("machineInfo_route", __name__)
@@ -34,15 +35,24 @@ def get_machines():
 @machineInfo_route.route("/machineInfo", methods=["POST"])
 def create_machine_info():
     json = request.get_json()  # request.json() ではなく、request.get_json() を使用します
-    
-    schema = MachineInfoSchema()
-    
+ 
+    schema = MachineInfoSchema(many=True)
+    #schema = MachineInfoSchema()
+        
     try:
         data = schema.load(json)
-        db.session.add(data)
+
+        db.session.bulk_save_objects(data)
+        #db.session.add(data)
+        
         db.session.commit()
-        return jsonify(data), 201
+        
+        return jsonify(schema.dump(data)), 201
+        #return jsonify(data), 201
+
     except ValidationError as e:
+         # エラーメッセージをログに出力
+        print(f"Validation Error: {e.messages}")
         return jsonify(e.messages), 422
 
         
