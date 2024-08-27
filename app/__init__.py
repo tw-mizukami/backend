@@ -6,7 +6,7 @@ from flask_cors import CORS
 from app import models
 from app.routes.machineInfo_route import machineInfo_route
 from app.routes.auth_route import auth_router
-from app.extensions import db, ma, migrate
+from app.extensions import db, ma, migrate, jwt
 
 
 def create_app():
@@ -19,6 +19,7 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
     migrate.init_app(app, db)
+    jwt.init_app(app)
 
     app.register_blueprint(machineInfo_route)
     app.register_blueprint(auth_router)
