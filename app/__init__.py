@@ -6,6 +6,7 @@ from flask_cors import CORS
 from app import models
 from app.routes.machineInfo_route import machineInfo_route
 from app.routes.auth_route import auth_router
+from app.routes.lotInfo_route import lotInfo_route
 from app.extensions import db, ma, migrate, jwt
 
 
@@ -23,6 +24,7 @@ def create_app():
 
     app.register_blueprint(machineInfo_route)
     app.register_blueprint(auth_router)
+    app.register_blueprint(lotInfo_route)
 
     CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"] }})
 

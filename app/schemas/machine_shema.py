@@ -17,6 +17,6 @@ class MachineInfoSchema(ma.SQLAlchemyAutoSchema):
         ]
     )
 
-    speed = fields.Integer(required=True)  
-    good_num = fields.Integer(required=True)  
-    ng_num = fields.Integer(required=True)  
+    speed = fields.String(required=True)  
+    good_num = fields.String(required=True)  
+    ng_num = fields.String(required=True)  
