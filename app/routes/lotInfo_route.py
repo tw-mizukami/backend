@@ -13,16 +13,16 @@ def create_lot_info():
     print(f"Received JSON data: {json_data}")
     print(f"Data type: {type(json_data)}")
 
-    # idまたはIPアドレスを受け取り、装置からlotInfoデータを取得して返す
+    # IPアドレスを受け取り、装置からlotInfoデータを取得して返す
     
     schema = LotInfoSchema()
     try:
-        data = schema.load(json_data)
+        # data = schema.load(json_data)
 
         lot_info = LotInfo(
             start_time= "2024/12/12 12:12:12",
-            productionPlan_num="1000",
-            supply_num="1000",
+            productionPlan_num="10000",
+            supply_num="5000",
             box_num="1000,1000,1000",
         )
 

@@ -10,4 +10,4 @@ class LotInfoSchema(ma.SQLAlchemyAutoSchema):
     start_time = fields.String(required=True)
     productionPlan_num = fields.String(required=True)  
     supply_num = fields.String(required=True)  
-    box_num = fields.List(fields.String(), required=True)
+    box_num = fields.String( required=True)
