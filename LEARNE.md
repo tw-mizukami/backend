@@ -4,6 +4,9 @@ flask db init
 ##マイグレーション作成コマンド
 flask db migrate -m "init machine table"
 
+    ## 追加
+    flask db migrate -m "Added BoxNum table and relationship to LotInfo"
+
 ##マイグレーションの反映コマンド
 flask db upgrade
 
