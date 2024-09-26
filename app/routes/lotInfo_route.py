@@ -16,34 +16,33 @@ def create_lot_info():
     schema = LotInfoSchema()
     
     try:
-        # JSONデータをロードして、辞書形式のデータを得る
         data = schema.load(json_data)
 
-        # データが辞書形式であることを確認
-        if isinstance(data, dict):
-            # LotInfoインスタンスを作成
-            lot_info_instance = LotInfo(
-                start_time=data.get('start_time'),
-                productionPlan_num=data.get('productionPlan_num'),
-                supply_num=data.get('supply_num'),
-            )
+        lot_info_instance = LotInfo(
+            start_time=json_data.get('start_time'),
+            productionPlan_num=json_data.get('productionPlan_num'),
+            supply_num=json_data.get('supply_num'),
+        )
+        
+        db.session.add(lot_info_instance)
+        db.session.commit()
+        
+        for box_data in json_data.get('box_num', []):
+            box_num_instance = BoxNum(num=box_data['num'], lot_info=lot_info_instance)
+            db.session.add(box_num_instance)
+ 
+        db.session.commit()
 
-            for box_data in data.get('box_num', []):
-                box_num_instance = BoxNum(num=box_data['num'])
-                lot_info_instance.box_num.append(box_num_instance)
-
-            db.session.add(lot_info_instance)
-            db.session.commit()
-
-            return jsonify(schema.dump(lot_info_instance)), 201
-        else:
-            return jsonify({"error": "Invalid data format"}), 400
+        return jsonify(schema.dump(json_data)), 201
 
     except ValidationError as ve:
         print(f"Validation Error: {ve.messages}")
+        db.session.rollback()
         return jsonify({"error": "Validation error", "messages": ve.messages}), 400
     except Exception as e:
-        import traceback
         print(f"Unexpected Error: {str(e)}")
-        traceback.print_exc()  # トレースバックを表示
+        db.session.rollback()
         return jsonify({"error": "An unexpected error occurred"}), 500
+    
+    
+    # PUT（全更新,PATCH（一部更新 更新処理
