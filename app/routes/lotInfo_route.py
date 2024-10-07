@@ -44,5 +44,3 @@ def create_lot_info():
         db.session.rollback()
         return jsonify({"error": "An unexpected error occurred"}), 500
     
-    
-    # PUT（全更新,PATCH（一部更新 更新処理
