@@ -8,6 +8,19 @@ from marshmallow import ValidationError
 
 machineInfo_route = Blueprint("machineInfo_route", __name__)
 
+@machineInfo_route.route("/machineInfo", methods=["DELETE"])
+def delete_machines():
+    machine_infos = MachineInfo.query.all()
+    
+    # 全てのデータを削除
+    for machine_info in machine_infos:
+        db.session.delete(machine_info)
+    
+    # コミットして削除を確定
+    db.session.commit()
+    
+    return jsonify("All machine records deleted successfully.")
+
 # FrontEndからIPアドレスをもらい、そのIPアドレスの装置情報を取得
 # ソフト起動時は、登録されている装置全ての情報を取得
 @machineInfo_route.route("/machineInfo", methods=["GET"])
